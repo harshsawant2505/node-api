@@ -32,13 +32,13 @@ async function register(req,res) {
       
         await connectDB();
         console.log("reached")
-        const {name, email, numberPlate, phNo, password } = req.body;
+        const {name, email,password, phNo } = req.body;
 
         const saltRounds = 10; // You can adjust this value
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-        console.log(name, email, numberPlate, phNo,  hashedPassword); 
+        console.log(name, email, phNo,  hashedPassword); 
         
-        req.session.user = {name, email, numberPlate, phNo, password: hashedPassword};
+        req.session.user = {name, email,  phNo, password: hashedPassword};
 
         const preExisitingUser = await User.findOne({email: email})
 
@@ -47,10 +47,10 @@ async function register(req,res) {
             return res.json({message: 'User already exists'});
         }
        
-        const user = new User({name, email, numberPlate, phNo, password: hashedPassword});
+        const user = new User({name, email,  phNo, password: hashedPassword});
         
         user.save();
-        res.status(200).json({message: 'Data set successfully', data: user});
+        res.status(200).send(user);
     } catch (error) {
         console.error('error:', error);
         res.status(500).json({message: 'Server error'});
@@ -73,7 +73,7 @@ const login = async(req, res) => {
        bcrypt.compare(password, user.password, (err, result) => {
             if(result){
                 req.session.user = user;
-                return res.json({message: 'Login successful', user: user});
+                return res.status(200).send(user);
             }else{
                 return res.status(400).json({message: 'Password incorrect'});
             }

@@ -5,6 +5,11 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
 
     {
+        type: {
+            type: String,
+            required: true,
+            default: "user",
+        },
         name: {
             type: String,
             required: true,
@@ -15,7 +20,7 @@ const userSchema = new mongoose.Schema(
         },
         numberPlate: {
             type: String,
-            required: true,
+            default: "0000",
         },
         phNo: {
             type: String,

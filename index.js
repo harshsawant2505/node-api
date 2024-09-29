@@ -37,7 +37,7 @@ app.post('/parkingdetails', getParkingDetails);
 
 app.get('/allparkingdetails', getParkingAllDetails);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function () {
   console.log(`Example app listening on port ${PORT}`);
