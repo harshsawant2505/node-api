@@ -34,14 +34,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
-        onehr: {
+       upiurl:{
             type: String,
-            default: '',
-        },
-        halfhr: {
-            type: String,
-            default: '',
-        },
+            default: ''
+       }
     }
 )
 export default mongoose.model('User', userSchema);

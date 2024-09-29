@@ -49,6 +49,10 @@ const datasetschema = new mongoose.Schema(
     exit_cam:{
         type: String,
         default: ''
+    },
+    upiurl:{
+        type: String,
+        default: ''
     }
 }
 )

@@ -96,8 +96,8 @@ async function registerParking(req,res) {
     try {
         await connectDB();
         console.log("reached")
-        const {name, email,password, phNo, onehr, halfhr } = req.body;
-
+        const {name, email,password, phNo,upiurl, gps } = await req.body;
+        console.log(password, email, phNo, upiurl, gps)
         const saltRounds = 10; // You can adjust this value
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         console.log(name, email, phNo,  hashedPassword); 
@@ -106,12 +106,17 @@ async function registerParking(req,res) {
 
         const preExisitingUser = await User.findOne({email: email})
 
+        const dataSetEntry = await DataSet.findOneAndUpdate({gps:gps}, {upiurl: upiurl}, {new: true});
+        console.log(dataSetEntry)
+
+    
+
         if(preExisitingUser){
             console.log('User already exists Login Instead');
             return res.json({message: 'User already exists'});
         }
        
-        const user = new User({type:'parking',name, email,  phNo, password: hashedPassword, onehr, halfhr});
+        const user = new User({type:'parking',name, email,  phNo, password: hashedPassword, upiurl});
         
         user.save();
         res.status(200).send(user);
