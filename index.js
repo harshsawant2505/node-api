@@ -3,7 +3,7 @@ import express from 'express';
 import session from "express-session";
 import cors from "cors";
 var app = express();
-import {getAbout, getLocationDetails, getUserData, register, login, setDataSet, getParkingDetails, getParkingAllDetails,getCorrespondingData} from './controllers/UserController.js';
+import {getAbout, getLocationDetails, getUserData, register, login, setDataSet, getParkingDetails, getParkingAllDetails,getCorrespondingData, registerPolice, registerParking} from './controllers/UserController.js';
 
 
 app.use(cors());
@@ -36,6 +36,10 @@ app.post('/getlocation', getLocationDetails);
 app.post('/parkingdetails', getParkingDetails);
 
 app.get('/allparkingdetails', getParkingAllDetails);
+
+app.post('/registerPolice', registerPolice);
+
+app.post('/registerParking', registerParking);
 
 const PORT = process.env.PORT || 3000;
 

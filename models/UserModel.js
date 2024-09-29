@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
         type: {
             type: String,
             required: true,
-            default: "user",
+            default: "citizen",
         },
         name: {
             type: String,
@@ -29,6 +29,18 @@ const userSchema = new mongoose.Schema(
         password: {
             type: String,
             required: true,
+        },
+        policeEmail: {
+            type: String,
+            default: "",
+        },
+        onehr: {
+            type: String,
+            default: '',
+        },
+        halfhr: {
+            type: String,
+            default: '',
         },
     }
 )

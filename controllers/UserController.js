@@ -58,6 +58,70 @@ async function register(req,res) {
     }
 
 }
+
+async function registerPolice(req,res) {
+
+    try {
+      
+        await connectDB();
+        console.log("reached")
+        const {name, email,password, phNo, policeEmail } = req.body;
+
+        const saltRounds = 10; // You can adjust this value
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        console.log(name, email, phNo,  hashedPassword); 
+        
+        req.session.user = {name, email,  phNo, password: hashedPassword};
+
+        const preExisitingUser = await User.findOne({email: email})
+
+        if(preExisitingUser){
+            console.log('User already exists Login Instead');
+            return res.json({message: 'User already exists'});
+        }
+       
+        const user = new User({type:'police',name, email,  phNo, password: hashedPassword, policeEmail});
+        
+        user.save();
+        res.status(200).send(user);
+    } catch (error) {
+        console.error('error:', error);
+        res.status(500).json({message: 'Server error'});
+        
+    }
+}
+
+async function registerParking(req,res) {
+
+    try {
+        await connectDB();
+        console.log("reached")
+        const {name, email,password, phNo, onehr, halfhr } = req.body;
+
+        const saltRounds = 10; // You can adjust this value
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        console.log(name, email, phNo,  hashedPassword); 
+        
+        req.session.user = {name, email,  phNo, password: hashedPassword};
+
+        const preExisitingUser = await User.findOne({email: email})
+
+        if(preExisitingUser){
+            console.log('User already exists Login Instead');
+            return res.json({message: 'User already exists'});
+        }
+       
+        const user = new User({type:'parking',name, email,  phNo, password: hashedPassword, onehr, halfhr});
+        
+        user.save();
+        res.status(200).send(user);
+    } catch (error) {
+        console.error('error:', error);
+        res.status(500).json({message: 'Server error'});
+        
+    }
+
+}
 const login = async(req, res) => {
 
     try {
@@ -208,5 +272,7 @@ export {
     setDataSet,
     getParkingDetails,
     getParkingAllDetails,
-    getCorrespondingData
+    getCorrespondingData,
+    registerPolice,
+    registerParking
 };
